@@ -28,7 +28,7 @@
 | Host | URL |
 |------|-----|
 | AWS S3 | `http://convertx-prathusha-website.s3-website-us-east-1.amazonaws.com` |
-| GitHub Pages | `https://<your-username>.github.io/convertX/` |
+| GitHub Pages | `https://prathyusha2906.github.io/convertX/` |
 
 > Replace the placeholders with your real URLs after deploying.
 
