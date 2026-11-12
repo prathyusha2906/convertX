@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>convertX – Free, Private All-in-One File Converter</title>
+<meta name="description" content="convertX converts PDF to Word, Word to PDF, images to PDF, merges PDFs and more. Everything runs in your browser, so your files never leave your device.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234f46e5'/><text x='50' y='68' font-size='58' font-weight='700' text-anchor='middle' fill='white' font-family='Arial'>X</text></svg>">
+<style>
+:root{--bg:#f8fafc;--surface:#fff;--text:#0f172a;--muted:#64748b;--brand:#4f46e5;--brand2:#06b6d4;--border:#e2e8f0;--soft:#eef2ff;--ok:#059669;--shadow:0 10px 30px rgba(15,23,42,.08)}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1020;--surface:#131a2e;--text:#e8ecf8;--muted:#94a3b8;--brand:#818cf8;--brand2:#22d3ee;--border:#243049;--soft:#1b2342;--ok:#34d399;--shadow:0 10px 30px rgba(0,0,0,.4)}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.25rem;letter-spacing:-.02em}
+.logo i{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;display:grid;place-items:center;font-style:normal;font-size:1rem}
+.logo b{color:var(--brand)}
+nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:.92rem;color:var(--muted)}
+nav ul a:hover{color:var(--text)}
+@media(max-width:640px){nav ul{display:none}}
+/* hero */
+.hero{text-align:center;padding:72px 0 48px;background:radial-gradient(700px 300px at 50% -10%,color-mix(in srgb,var(--brand) 22%,transparent),transparent)}
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;color:var(--brand);background:var(--soft);padding:6px 14px;border-radius:99px;font-weight:600}
+.hero h1{font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:1.1;letter-spacing:-.03em;margin:20px auto 16px;max-width:760px}
+.hero h1 span{background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:1.12rem;max-width:620px;margin:0 auto 28px}
+.btn{display:inline-block;background:linear-gradient(135deg,var(--brand),#6366f1);color:#fff;padding:13px 28px;border-radius:12px;font-weight:600;border:0;font-size:1rem;cursor:pointer;box-shadow:0 8px 20px color-mix(in srgb,var(--brand) 35%,transparent);transition:.15s}
+.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.stats{display:flex;justify-content:center;gap:40px;margin-top:44px;flex-wrap:wrap}
+.stats div{font-size:.85rem;color:var(--muted)}.stats strong{display:block;font-size:1.6rem;color:var(--text);letter-spacing:-.02em}
+/* sections */
+section.s{padding:56px 0}
+.head{text-align:center;margin-bottom:32px}.head h2{font-size:1.9rem;letter-spacing:-.02em;margin:0 0 8px}.head p{color:var(--muted);margin:0}
+/* tool cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;cursor:pointer;text-align:left;color:inherit;font:inherit;transition:.15s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--brand)}
+.card.active{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 20%,transparent)}
+.ico{flex:none;width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center}
+.ico svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card h3{margin:0 0 4px;font-size:1.05rem}.card p{margin:0;color:var(--muted);font-size:.9rem}
+/* workspace */
+#workspace{margin-top:28px}
+.panel{display:none;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;box-shadow:var(--shadow)}
+.panel.active{display:block}
+.ph{display:flex;gap:14px;align-items:center;margin-bottom:6px}.ph h2{margin:0;font-size:1.4rem}
+.note{color:var(--muted);font-size:.9rem;margin:0 0 20px}
+.drop{display:block;border:2px dashed var(--border);border-radius:16px;padding:38px 20px;text-align:center;cursor:pointer;background:var(--bg);transition:.15s}
+.drop:hover,.drop.over{border-color:var(--brand);background:var(--soft)}
+.drop input{display:none}.drop svg{width:38px;height:38px;stroke:var(--brand);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.drop strong{display:block;margin-top:8px}.drop span{color:var(--muted);font-size:.85rem}
+.files{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+.chip{display:flex;align-items:center;gap:8px;background:var(--soft);color:var(--text);border-radius:99px;padding:5px 6px 5px 14px;font-size:.84rem;max-width:100%}
+.chip em{font-style:normal;color:var(--muted);font-size:.76rem}
+.chip button{border:0;background:var(--border);color:var(--text);width:22px;height:22px;border-radius:50%;cursor:pointer;line-height:1}
+.actions{display:flex;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap}
+select{padding:11px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.95rem}
+.status{margin-top:16px;font-size:.92rem;color:var(--muted);display:none;align-items:center;gap:10px}
+.status.on{display:flex}
+.spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:sp .7s linear infinite}
+.status.done .spin{display:none}.status.done{color:var(--ok);font-weight:600}.status.err{color:#dc2626}.status.err .spin{display:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+.out{margin-top:16px;display:flex;flex-wrap:wrap;gap:12px}
+.out a{display:inline-flex;align-items:center;gap:8px;background:var(--ok);color:#fff;padding:10px 16px;border-radius:10px;font-size:.9rem;font-weight:600}
+.out figure{margin:0;text-align:center;font-size:.8rem;width:140px}
+.out img{width:100%;border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
+.out figure a{padding:6px 10px;font-size:.78rem;word-break:break-all}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center}
+.step .n{width:40px;height:40px;border-radius:50%;background:var(--soft);color:var(--brand);font-weight:700;display:grid;place-items:center;margin:0 auto 12px}
+.step h3{margin:0 0 6px;font-size:1.05rem}.step p{margin:0;color:var(--muted);font-size:.92rem}
+/* features */
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.feat div{padding:20px;border-radius:14px;background:var(--surface);border:1px solid var(--border)}
+.feat h4{margin:0 0 6px}.feat p{margin:0;color:var(--muted);font-size:.9rem}
+/* faq */
+.faq{max-width:760px;margin:0 auto}
+details{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:600}details p{color:var(--muted);margin:10px 0 0;font-size:.93rem}
+/* footer */
+footer{border-top:1px solid var(--border);margin-top:40px;padding:32px 0;color:var(--muted);font-size:.88rem}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="logo" href="#top"><i>X</i><span>convert<b>X</b></span></a>
+  <ul><li><a href="#tools">Tools</a></li><li><a href="#how">How it works</a></li><li><a href="#why">Why convertX</a></li><li><a href="#faq">FAQ</a></li></ul>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <span class="pill">🔒 Files never leave your device</span>
+  <h1>Every file converter you need, <span>in one place.</span></h1>
+  <p>Convert, merge and transform PDFs, Word documents and images instantly. No uploads, no sign-up and no limits.</p>
+  <a class="btn" href="#tools">Start converting</a>
+  <div class="stats"><div><strong>6</strong>Tools</div><div><strong>0</strong>Uploads</div><div><strong>100%</strong>Private</div><div><strong>Free</strong>Forever</div></div>
+</div></header>
+
+<section class="s" id="tools"><div class="wrap">
+  <div class="head"><h2>Choose a tool</h2><p>Pick what you want to do, then drop your file.</p></div>
+  <div class="grid" id="grid"></div>
+  <div id="workspace"></div>
+</div></section>
+
+<section class="s" id="how"><div class="wrap">
+  <div class="head"><h2>How it works</h2><p>Three simple steps, all inside your browser.</p></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><h3>Select a tool</h3><p>Choose a conversion from the list above.</p></div>
+    <div class="step"><div class="n">2</div><h3>Add your files</h3><p>Drag and drop, or browse from your device.</p></div>
+    <div class="step"><div class="n">3</div><h3>Download</h3><p>Your converted file is ready in seconds.</p></div>
+  </div>
+</div></section>
+
+<section class="s" id="why"><div class="wrap">
+  <div class="head"><h2>Why convertX</h2></div>
+  <div class="feat">
+    <div><h4>🔒 Private by design</h4><p>All processing is done locally with JavaScript. Nothing is sent to a server.</p></div>
+    <div><h4>⚡ Fast</h4><p>No upload or download waiting, so conversion starts immediately.</p></div>
+    <div><h4>🆓 Free</h4><p>No accounts, watermarks or daily limits.</p></div>
+    <div><h4>📱 Works everywhere</h4><p>Responsive design with automatic light and dark themes.</p></div>
+  </div>
+</div></section>
+
+<section class="s" id="faq"><div class="wrap">
+  <div class="head"><h2>Frequently asked questions</h2></div>
+  <div class="faq">
+    <details><summary>Are my files uploaded anywhere?</summary><p>No. Every conversion runs in your browser, so your files stay on your device.</p></details>
+    <details><summary>Will PDF to Word keep my layout?</summary><p>It extracts the text of each page into an editable document. Complex layouts, tables and images are not preserved, and scanned PDFs need OCR, which is not supported.</p></details>
+    <details><summary>Is there a file size limit?</summary><p>There is no fixed limit, but very large files depend on your device's memory.</p></details>
+    <details><summary>Does it work offline?</summary><p>You need an internet connection the first time to load the conversion libraries.</p></details>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div>© <span id="yr"></span> convertX · Built by Prathusha Tangirala</div>
+  <div>Static site · Hosted on AWS S3</div>
+</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+const readBuf=f=>f.arrayBuffer();
+const readURL=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)});
+const loadImg=src=>new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src});
+const base=n=>n.replace(/\.[^.]+$/,'');
+const size=b=>b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB';
+function link(blob,name,out){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.textContent='⬇ '+name;out.appendChild(a)}
+const I=p=>`<svg viewBox="0 0 24 24">${p}</svg>`;
+const ICON={
+ doc:I('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>'),
+ img:I('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>'),
+ merge:I('<path d="M6 3v6a4 4 0 0 0 4 4h4a4 4 0 0 1 4 4v4M18 3v6M6 21v-4"/>'),
+ swap:I('<path d="M17 1l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/>'),
+ up:I('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>')
+};
+
+/* ---------- Tools ---------- */
+const tools=[
+{id:'pdf2word',title:'PDF to Word',icon:'doc',desc:'Turn PDF text into an editable .docx file.',accept:'.pdf',multiple:false,note:'Extracts text from each page. Scanned (image-only) PDFs are not supported.',
+ async run(files,ctx){
+  const pdf=await pdfjsLib.getDocument({data:await readBuf(files[0])}).promise;
+  const {Document,Packer,Paragraph,TextRun}=docx;const paras=[];
+  for(let p=1;p<=pdf.numPages;p++){
+    ctx.status(`Reading page ${p} of ${pdf.numPages}…`);
+    const tc=await (await pdf.getPage(p)).getTextContent();
+    const lines=[];let lastY=null,cur='';
+    for(const it of tc.items){
+      const y=Math.round(it.transform[5]);
+      if(lastY!==null&&Math.abs(y-lastY)>3){lines.push(cur.trim());cur=''}
+      cur+=it.str+(it.hasEOL?' ':'');lastY=y;
+    }
+    if(cur.trim())lines.push(cur.trim());
+    lines.forEach((l,i)=>paras.push(new Paragraph({pageBreakBefore:p>1&&i===0,children:[new TextRun(l)]})));
+  }
+  if(!paras.length)throw new Error('No selectable text found. This PDF may be scanned.');
+  const blob=await Packer.toBlob(new Document({sections:[{children:paras}]}));
+  link(blob,base(files[0].name)+'.docx',ctx.out);
+ }},
+{id:'word2pdf',title:'Word to PDF',icon:'doc',desc:'Convert .docx documents into shareable PDFs.',accept:'.docx',multiple:false,note:'Converts the text of a .docx. Images and advanced formatting are not preserved.',
+ async run(files,ctx){
+  ctx.status('Reading document…');
+  const {value}=await mammoth.extractRawText({arrayBuffer:await readBuf(files[0])});
+  const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'pt',format:'a4'});
+  const m=50,w=doc.internal.pageSize.getWidth()-2*m,h=doc.internal.pageSize.getHeight()-m;
+  doc.setFontSize(11);let y=m;
+  for(const line of doc.splitTextToSize(value,w)){if(y>h){doc.addPage();y=m}doc.text(line,m,y);y+=15}
+  link(doc.output('blob'),base(files[0].name)+'.pdf',ctx.out);
+ }},
+{id:'img2pdf',title:'Images to PDF',icon:'img',desc:'Combine JPG, PNG or WebP images into one PDF.',accept:'image/*',multiple:true,note:'Each image becomes one page, in the order selected.',
+ async run(files,ctx){
+  const {jsPDF}=window.jspdf;let doc;
+  for(let i=0;i<files.length;i++){
+    ctx.status(`Adding image ${i+1} of ${files.length}…`);
+    const img=await loadImg(await readURL(files[i]));
+    const c=document.createElement('canvas');c.width=img.width;c.height=img.height;
+    const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(img,0,0);
+    const data=c.toDataURL('image/jpeg',.92);const o=img.width>img.height?'l':'p';
+    if(!doc)doc=new jsPDF({unit:'px',format:[img.width,img.height],orientation:o,hotfixes:['px_scaling']});
+    else doc.addPage([img.width,img.height],o);
+    doc.addImage(data,'JPEG',0,0,img.width,img.height);
+  }
+  link(doc.output('blob'),'images.pdf',ctx.out);
+ }},
+{id:'pdf2img',title:'PDF to Images',icon:'img',desc:'Export every PDF page as a PNG or JPG image.',accept:'.pdf',multiple:false,note:'Each page is rendered in high quality.',
+ options:'<select id="pdf2img-fmt"><option value="png">PNG</option><option value="jpeg">JPG</option></select>',
+ async run(files,ctx){
+  const fmt=document.getElementById('pdf2img-fmt').value;
+  const pdf=await pdfjsLib.getDocument({data:await readBuf(files[0])}).promise;
+  for(let p=1;p<=pdf.numPages;p++){
+    ctx.status(`Rendering page ${p} of ${pdf.numPages}…`);
+    const page=await pdf.getPage(p);const vp=page.getViewport({scale:2});
+    const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;
+    await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
+    const blob=await new Promise(r=>c.toBlob(r,'image/'+fmt,.92));
+    const fig=document.createElement('figure');const im=document.createElement('img');im.src=URL.createObjectURL(blob);
+    fig.appendChild(im);link(blob,`${base(files[0].name)}-page${p}.${fmt==='jpeg'?'jpg':'png'}`,fig);ctx.out.appendChild(fig);
+  }
+ }},
+{id:'merge',title:'Merge PDFs',icon:'merge',desc:'Join multiple PDF files into a single document.',accept:'.pdf',multiple:true,note:'Files are merged in the order selected.',
+ async run(files,ctx){
+  const {PDFDocument}=PDFLib;const out=await PDFDocument.create();
+  for(let i=0;i<files.length;i++){
+    ctx.status(`Merging file ${i+1} of ${files.length}…`);
+    const src=await PDFDocument.load(await readBuf(files[i]));
+    (await out.copyPages(src,src.getPageIndices())).forEach(pg=>out.addPage(pg));
+  }
+  link(new Blob([await out.save()],{type:'application/pdf'}),'merged.pdf',ctx.out);
+ }},
+{id:'imgconv',title:'Image Converter',icon:'swap',desc:'Switch between JPG, PNG and WebP formats.',accept:'image/*',multiple:true,note:'Choose the output format, then convert one or many images.',
+ options:'<select id="imgconv-fmt"><option value="png">To PNG</option><option value="jpeg">To JPG</option><option value="webp">To WebP</option></select>',
+ async run(files,ctx){
+  const fmt=document.getElementById('imgconv-fmt').value;
+  for(let i=0;i<files.length;i++){
+    ctx.status(`Converting ${i+1} of ${files.length}…`);
+    const img=await loadImg(await readURL(files[i]));
+    const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const g=c.getContext('2d');
+    if(fmt==='jpeg'){g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height)}
+    g.drawImage(img,0,0);
+    const blob=await new Promise(r=>c.toBlob(r,'image/'+fmt,.92));
+    link(blob,base(files[i].name)+'.'+(fmt==='jpeg'?'jpg':fmt),ctx.out);
+  }
+ }}
+];
+
+/* ---------- UI ---------- */
+const grid=document.getElementById('grid'),ws=document.getElementById('workspace');
+function show(id,scroll){
+  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('active',c.dataset.id===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='p-'+id));
+  history.replaceState(null,'','#'+id);
+  if(scroll)ws.scrollIntoView({behavior:'smooth',block:'start'});
+}
+tools.forEach(t=>{
+  const c=document.createElement('button');c.className='card';c.dataset.id=t.id;
+  c.innerHTML=`<span class="ico">${ICON[t.icon]}</span><span><h3>${t.title}</h3><p>${t.desc}</p></span>`;
+  c.onclick=()=>show(t.id,true);grid.appendChild(c);
+
+  const p=document.createElement('div');p.className='panel';p.id='p-'+t.id;
+  p.innerHTML=`<div class="ph"><span class="ico">${ICON[t.icon]}</span><h2>${t.title}</h2></div><p class="note">${t.note}</p>
+  <label class="drop"><input type="file" accept="${t.accept}" ${t.multiple?'multiple':''}>${ICON.up}<strong>Drop ${t.multiple?'files':'a file'} here or click to browse</strong><span>Processed locally. Nothing is uploaded.</span></label>
+  <div class="files"></div>
+  <div class="actions">${t.options||''}<button class="btn" disabled>Convert</button></div>
+  <div class="status"><span class="spin"></span><span class="msg"></span></div><div class="out"></div>`;
+  ws.appendChild(p);
+  const input=p.querySelector('input'),drop=p.querySelector('.drop'),list=p.querySelector('.files'),
+        btn=p.querySelector('.btn'),st=p.querySelector('.status'),msg=p.querySelector('.msg'),out=p.querySelector('.out');
+  let files=[];
+  const setStatus=(s,cls)=>{st.className='status on '+(cls||'');msg.textContent=s};
+  const render=()=>{
+    list.innerHTML='';
+    files.forEach((f,i)=>{const ch=document.createElement('span');ch.className='chip';
+      ch.innerHTML=`${f.name} <em>${size(f.size)}</em>`;const x=document.createElement('button');x.textContent='×';x.title='Remove';
+      x.onclick=()=>{files.splice(i,1);render()};ch.appendChild(x);list.appendChild(ch)});
+    btn.disabled=!files.length;out.innerHTML='';st.className='status';
+  };
+  const add=fl=>{files=t.multiple?files.concat([...fl]):[...fl].slice(0,1);render()};
+  input.onchange=()=>{add(input.files);input.value=''};
+  ['dragover','dragenter'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add('over')}));
+  ['dragleave','drop'].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove('over')}));
+  drop.addEventListener('drop',ev=>add(ev.dataTransfer.files));
+  btn.onclick=async()=>{
+    btn.disabled=true;out.innerHTML='';
+    try{await t.run(files,{out,status:s=>setStatus(s)});setStatus('Done! Your file is ready to download.','done')}
+    catch(e){console.error(e);setStatus('Error: '+(e.message||'conversion failed'),'err')}
+    btn.disabled=false;
+  };
+});
+const h=location.hash.slice(1);
+show(tools.some(t=>t.id===h)?h:tools[0].id,false);
+</script>
+</body>
+</html>
